@@ -1,0 +1,29 @@
+name: 'MySql SQL Query  Runner GitHub Action Example'
+description: 'This GitHub Action sets up a connection to MySQL and runs given queries.'
+inputs:
+  queries:
+    required: true
+    description: ''
+  host:
+    required: true
+    description: ''
+  user:
+    required: true
+    description: ''
+  password:
+    required: true
+    description: ''
+  port:
+    required: true
+    description: ''
+  database:
+    required: true
+    description: ''
+
+outputs:
+  query-result-:
+    description: ''
+
+runs:
+  using: 'node16'
+  main: 'dist/action/index.js'
