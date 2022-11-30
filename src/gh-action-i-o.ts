@@ -45,7 +45,14 @@ export class GhActionIO implements ActionIO {
     private getInput<T>(name:string, defaultVal:T):T {
         try {
             const tmp: string = core.getInput(name, {required: false})
-            return tmp ? JSON.parse(tmp) : defaultVal
+            switch (typeof defaultVal) {
+                case "string":
+                    return tmp as T
+                case "number":
+                    return Number(tmp) as T
+                default:
+                    return JSON.parse(tmp)
+            }
         } catch (error) {
             throw {
                 message: `Failed to parse input: ${name}`,
@@ -53,5 +60,4 @@ export class GhActionIO implements ActionIO {
             }
         }
     }
-
 }
