@@ -11,10 +11,6 @@ export interface ActionIO {
     setError(error: any): void;
 }
 export declare class GhActionIO implements ActionIO {
-    private readonly queries;
-    private readonly connectionSettings;
-    getInput<T>(name: string, defaultVal: T): T;
-    constructor();
     getConnectionSettings(): {
         host: string;
         user: string;
@@ -25,4 +21,5 @@ export declare class GhActionIO implements ActionIO {
     getQueries(): string[];
     setQueriesResults(results: string[]): void;
     setError(error: any): void;
+    private getInput;
 }

@@ -22069,13 +22069,8 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GhActionIO = void 0;
 const core = __nccwpck_require__(2186);
 class GhActionIO {
-    getInput(name, defaultVal) {
-        const tmp = core.getInput(name, { required: false });
-        return tmp ? JSON.parse(tmp) : defaultVal;
-    }
-    constructor() {
-        this.queries = this.getInput("queries", ['INSERT INTO `db`.`test` (`name`, `age`) VALUES (\'fdsfd\', 3);', 'UPDATE `db`.`test` SET `name`=\'123\' WHERE  `name`=\'k\' AND `age`=3 LIMIT 1;']);
-        this.connectionSettings = {
+    getConnectionSettings() {
+        return {
             host: this.getInput("host", 'localhost'),
             user: this.getInput("user", 'user'),
             password: this.getInput("password", 'password'),
@@ -22083,11 +22078,8 @@ class GhActionIO {
             database: this.getInput("database", 'db')
         };
     }
-    getConnectionSettings() {
-        return this.connectionSettings;
-    }
     getQueries() {
-        return this.queries;
+        return this.getInput("queries", []);
     }
     setQueriesResults(results) {
         results.forEach((value, index) => {
@@ -22096,6 +22088,18 @@ class GhActionIO {
     }
     setError(error) {
         core.error(error);
+    }
+    getInput(name, defaultVal) {
+        try {
+            const tmp = core.getInput(name, { required: false });
+            return tmp ? JSON.parse(tmp) : defaultVal;
+        }
+        catch (error) {
+            throw {
+                message: `Failed to parse input: ${name}`,
+                cause: error
+            };
+        }
     }
 }
 exports.GhActionIO = GhActionIO;
