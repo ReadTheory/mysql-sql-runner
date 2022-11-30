@@ -22092,7 +22092,14 @@ class GhActionIO {
     getInput(name, defaultVal) {
         try {
             const tmp = core.getInput(name, { required: false });
-            return tmp ? JSON.parse(tmp) : defaultVal;
+            switch (typeof defaultVal) {
+                case "string":
+                    return tmp;
+                case "number":
+                    return Number(tmp);
+                default:
+                    return JSON.parse(tmp);
+            }
         }
         catch (error) {
             throw {
