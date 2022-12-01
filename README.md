@@ -32,18 +32,19 @@ jobs:
   find_folders_job:
     runs-on: ubuntu-latest
     steps:
-      - uses: ReadTheory/mysql-sql-runner@v1
+      - uses: ReadTheory/mysql-sql-runner@main
         id: mysql-sql-runner
         with:
-          queries: ['INSERT INTO `db`.`test` (`name`, `age`) VALUES (\'fdsfd\', 3);','UPDATE `db`.`test` SET `name`=\'123\' WHERE  `name`=\'k\' AND `age`=3 LIMIT 1;']
-          host: localhost
-          user: user
-          password: password
+          queries: 
+            - "INSERT INTO `db`.`test` (`name`, `age`) VALUES ('fdsfd', 3);"
+            - "UPDATE `db`.`test` SET `name`=\'123\' WHERE  `name`=\'k\' AND `age`=3 LIMIT 1;"
+          host: "localhost"
+          user: "user"
+          password: "password"
           port: 3306
-          database: db
+          database: "db"
 
       - name: 'Results output'
         run: |
-          echo "${{ steps.mysql-sql-runner.outputs.query-result-1 }}"
-          echo "${{ steps.mysql-sql-runner.outputs.query-result-2 }}"
+          echo "${{ steps.mysql-sql-runner.outputs.queries-results }}"
 ```

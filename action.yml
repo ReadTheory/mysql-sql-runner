@@ -21,7 +21,7 @@ inputs:
     description: ''
 
 outputs:
-  query-result-:
+  queries-results:
     description: ''
 
 runs:

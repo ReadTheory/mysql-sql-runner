@@ -22082,23 +22082,22 @@ class GhActionIO {
         return this.getInput("queries", []);
     }
     setQueriesResults(results) {
-        results.forEach((value, index) => {
-            core.setOutput(`query-result-${index}`, value);
-        });
+        core.setOutput(`queries-results`, results);
     }
     setError(error) {
-        core.error(error);
+        core.setFailed(`Action failed with error ${error}`);
     }
     getInput(name, defaultVal) {
         try {
-            const tmp = core.getInput(name, { required: false });
             switch (typeof defaultVal) {
                 case "string":
-                    return tmp;
+                    return core.getInput(name, { required: false }) || defaultVal;
                 case "number":
-                    return Number(tmp);
+                    return Number(core.getInput(name, { required: false })) || defaultVal;
+                case "boolean":
+                    return core.getBooleanInput(name, { required: false }) || defaultVal;
                 default:
-                    return JSON.parse(tmp);
+                    return core.getMultilineInput(name, { required: false }) || defaultVal;
             }
         }
         catch (error) {
